@@ -1,13 +1,140 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background-color: #bbffaa;
+}
+
+header {
+  width: 100%;
+  height: 5rem;
+  background-color: #95d9ff;
+  box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+main > p {
+  padding: 1rem;
+  width: 90%;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.main-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn__main {
+  border: none;
+  padding: 0.5em 1.5em;
+  background-color: #95d9ff;
+  box-shadow: 0px 4px 7px -3px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+input {
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid #d1d1d1;
+}
+
+.btn__main:hover {
+  box-shadow: none;
+  cursor: pointer;
+  background-color: #b5e4ff;
+}
+
+.gronot_form {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gronot_form > input {
+  width: 95%;
+}
+
+.input_and_btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input_and_btn > input {
+  margin-right: 1rem;
+}
+
+.input_and_btn > button {
+  font-size: 5px;
+  padding: 0em 1em;
+}
+
+label {
+  width: 100%;
+  padding: 1rem 0;
+  font-weight: bold;
+}
+
+.gronot_list {
+  margin: 1rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #979797;
+  border-radius: 12px;
+}
+
+.gronot_list > button {
+  margin-top: 0.5rem;
+}
+
+.garon {
+  background-color: #4fa658;
+  border-radius: 12px;
+  margin: 0.5em 0;
+  width: 100px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.title_and_input {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+.result_page {
+  padding: 1rem;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 12px;
 }

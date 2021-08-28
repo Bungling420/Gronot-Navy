@@ -18,7 +18,7 @@ const calcGaurd = (startDateAndTimeString, endDateAndTimeString, gronotNum) => {
 
   const timeForEachString = `${hoursForEach}:${
     minForEach - hoursForEach * 60
-  }:${secondsForEach - minForEach * 60}`;
+  }:${Math.ceil(secondsForEach - minForEach * 60)}`;
 
   return {
     totalTimeString,

@@ -8,8 +8,9 @@ const calcGaurd = (startDateAndTimeString, endDateAndTimeString, gronotNum) => {
   const totalMin = Math.floor(timeInMilliSecond / 1000 / 60);
   const totalSeconds = timeInMilliSecond / 1000;
 
+
   const totalTimeString = `${totalHours}:${totalMin - totalHours * 60}:${
-    totalSeconds - totalMin * 60
+    Math.ceil(totalSeconds - totalMin * 60)
   }`;
 
   const hoursForEach = Math.floor(totalHours / gronotNum);

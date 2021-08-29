@@ -12,7 +12,14 @@ const GronotForm = ({ onFormSubmition }) => {
   const startHourRef = useRef();
   const endHourRef = useRef();
 
-  const [gronotNames, setGronotNames] = useState([]);
+  const [gronotNames, setGronotNames] = useState([
+    "שי",
+    "אופק",
+    "רייכמן",
+    "סופר",
+    "נוגט",
+    "שפיגל",
+  ]);
   const [namesDisable, setNamesDisable] = useState(false);
 
   const nameListIsEmpty = gronotNames.length === 0;
@@ -57,12 +64,13 @@ const GronotForm = ({ onFormSubmition }) => {
       ? gronotNumberRef.current.value
       : gronotNames.length;
 
-    const { totalTimeString, timeForEachString } = calcGaurd(
+    const { totalTimeString, timeForEachString, copyText } = calcGaurd(
       `${formDate}T${startTime}`,
       `${untilDate}T${endTime}`,
-      gronotNum
+      gronotNum,
+      gronotNames
     );
-    onFormSubmition(totalTimeString, timeForEachString);
+    onFormSubmition(totalTimeString, timeForEachString, copyText);
   };
 
   return (

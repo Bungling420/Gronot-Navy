@@ -9,10 +9,16 @@ function App() {
   const [showResult, setShowResult] = useState(false);
   const [totalTime, setTotalTime] = useState("");
   const [timeForEach, setTimeForEach] = useState("");
-  const formSubmitionHandler = (total, each) => {
+  const [copyString, setCopyString] = useState("");
+  const [showCopyText, setShowCopyText] = useState(false);
+  const formSubmitionHandler = (total, each, copyText) => {
+    if (copyText !== "") {
+      setShowCopyText(true);
+    }
     setShowForm(false);
     setTotalTime(total);
     setTimeForEach(each);
+    setCopyString(copyText);
     setShowResult(true);
   };
 
@@ -26,7 +32,13 @@ function App() {
       <p>Seems like it’s your time to guard the ship...</p>
       {showForm && <GronotForm onFormSubmition={formSubmitionHandler} />}
       {showResult && (
-        <ResultPage total={totalTime} each={timeForEach} onClac={calcHandler} />
+        <ResultPage
+          total={totalTime}
+          each={timeForEach}
+          onClac={calcHandler}
+          copyText={copyString}
+          showCopyText={showCopyText}
+        />
       )}
     </Layout>
   );

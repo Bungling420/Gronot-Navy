@@ -12,14 +12,7 @@ const GronotForm = ({ onFormSubmition }) => {
   const startHourRef = useRef();
   const endHourRef = useRef();
 
-  const [gronotNames, setGronotNames] = useState([
-    "שי",
-    "אופק",
-    "רייכמן",
-    "סופר",
-    "נוגט",
-    "שפיגל",
-  ]);
+  const [gronotNames, setGronotNames] = useState([]);
   const [namesDisable, setNamesDisable] = useState(false);
 
   const nameListIsEmpty = gronotNames.length === 0;

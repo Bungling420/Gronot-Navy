@@ -1,33 +1,83 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import NamesList from "./NamesList";
-import calcGaurd from "../calcGaurd";
+import calcGaurd from "../util/calcGaurd";
+import useInput from "../hooks/useInput";
+import {
+  isNumber,
+  isString,
+  isDate,
+  isTime,
+} from "../util/validationFunctions";
 
 const GronotForm = ({ onFormSubmition }) => {
-  const gronotNumberRef = useRef();
-  const garonNameRef = useRef();
-  const fromDateRef = useRef();
-  const untilDateRef = useRef();
-  const startHourRef = useRef();
-  const endHourRef = useRef();
+  const {
+    value: gronotNumber,
+    showError: gronotNumberShowError,
+    isValid: gronotNumberIsValid,
+    onChange: gronotNumberOnChange,
+    onBlur: gronotNumberOnBlur,
+  } = useInput(isNumber);
+  const {
+    value: garonName,
+    showError: garonNameShowError,
+    isValid: garonNameIsValid,
+    onChange: garonNameOnChange,
+    onBlur: garonNameOnBlur,
+    reset: garonNameReset,
+  } = useInput(isString);
+  const {
+    value: fromDate,
+    showError: fromDateShowError,
+    isValid: fromDateIsValid,
+    onChange: fromDateOnChange,
+    onBlur: fromDateOnBlur,
+  } = useInput(isDate);
+  const {
+    value: untilDate,
+    showError: untilDateShowError,
+    isValid: untilDateIsValid,
+    onChange: untilDateOnChange,
+    onBlur: untilDateOnBlur,
+  } = useInput(isDate);
+  const {
+    value: startTime,
+    showError: startTimeShowError,
+    isValid: startTimeIsValid,
+    onChange: startTimeOnChange,
+    onBlur: startTimeOnBlur,
+  } = useInput(isTime);
+  const {
+    value: endTime,
+    showError: endTimeShowError,
+    isValid: endTimeIsValid,
+    onChange: endTimeOnChange,
+    onBlur: endTimeOnBlur,
+  } = useInput(isTime);
 
   const [gronotNames, setGronotNames] = useState([]);
   const [namesDisable, setNamesDisable] = useState(false);
 
   const nameListIsEmpty = gronotNames.length === 0;
 
-  const gronotNumberChangeHandler = () => {
-    gronotNumberRef.current.value === ""
-      ? setNamesDisable(false)
-      : setNamesDisable(true);
-  };
+  useEffect(() => {
+    if (gronotNumber) {
+      return setNamesDisable(true);
+    }
+    if (gronotNumber === "") {
+      return setNamesDisable(false);
+    }
+  }, [gronotNumber]);
 
   const onAddGaronHandler = () => {
+    if (!garonNameIsValid) {
+      return;
+    }
     setGronotNames((prev) => {
       const newArr = [...prev];
-      newArr.push(garonNameRef.current.value);
-      garonNameRef.current.value = "";
+      newArr.push(garonName);
+      garonNameReset();
       return newArr;
     });
   };
@@ -44,21 +94,31 @@ const GronotForm = ({ onFormSubmition }) => {
     setGronotNames([]);
   };
 
+  let formIsValid;
+
+  if (
+    (gronotNumberIsValid || garonNameIsValid) &&
+    fromDateIsValid &&
+    untilDateIsValid &&
+    startTimeIsValid &&
+    endTimeIsValid
+  ) {
+    formIsValid = true;
+  } else {
+    formIsValid = false;
+  }
+
   const formSubmitHandler = (event) => {
     event.preventDefault();
 
-    const formDate = fromDateRef.current.value;
-    const untilDate = untilDateRef.current.value;
+    if (!formIsValid) {
+      return;
+    }
 
-    const startTime = startHourRef.current.value;
-    const endTime = endHourRef.current.value;
-
-    const gronotNum = nameListIsEmpty
-      ? gronotNumberRef.current.value
-      : gronotNames.length;
+    const gronotNum = nameListIsEmpty ? gronotNumber : gronotNames.length;
 
     const { totalTimeString, timeForEachString, copyText } = calcGaurd(
-      `${formDate}T${startTime}`,
+      `${fromDate}T${startTime}`,
       `${untilDate}T${endTime}`,
       gronotNum,
       gronotNames
@@ -73,10 +133,11 @@ const GronotForm = ({ onFormSubmition }) => {
         type="number"
         name="number-of-gronot"
         placeholder="e.g. '2'"
-        step="1"
-        ref={gronotNumberRef}
         disabled={!nameListIsEmpty}
-        onChange={gronotNumberChangeHandler}
+        value={gronotNumber}
+        onBlur={gronotNumberOnBlur}
+        onChange={gronotNumberOnChange}
+        className={gronotNumberShowError && nameListIsEmpty ? "invalid" : ""}
       />
       <label htmlFor="list-of-gronot">Or Their Names:</label>
       <div className="input_and_btn">
@@ -84,8 +145,11 @@ const GronotForm = ({ onFormSubmition }) => {
           type="text"
           name="list-of-gronot"
           placeholder="e.g. 'Shay'"
-          ref={garonNameRef}
           disabled={namesDisable}
+          value={garonName}
+          onBlur={garonNameOnBlur}
+          onChange={garonNameOnChange}
+          className={garonNameShowError && !nameListIsEmpty ? "invalid" : ""}
         />
         <Button
           type="button"
@@ -105,20 +169,48 @@ const GronotForm = ({ onFormSubmition }) => {
       <label>Enter Date:</label>
       <div className="title_and_input">
         <p>From:</p>
-        <Input type="date" name="from-date" ref={fromDateRef} />
+        <Input
+          type="date"
+          name="from-date"
+          value={fromDate}
+          onBlur={fromDateOnBlur}
+          onChange={fromDateOnChange}
+          className={fromDateShowError ? "invalid" : ""}
+        />
       </div>
       <div className="title_and_input">
         <p>Until:</p>
-        <Input type="date" name="until-date" ref={untilDateRef} />
+        <Input
+          type="date"
+          name="until-date"
+          value={untilDate}
+          onBlur={untilDateOnBlur}
+          onChange={untilDateOnChange}
+          className={untilDateShowError ? "invalid" : ""}
+        />
       </div>
       <label>Enter Time:</label>
       <div className="title_and_input">
         <p>Start:</p>
-        <Input type="time" name="start-time" ref={startHourRef} />
+        <Input
+          type="time"
+          name="start-time"
+          value={startTime}
+          onBlur={startTimeOnBlur}
+          onChange={startTimeOnChange}
+          className={startTimeShowError ? "invalid" : ""}
+        />
       </div>
       <div className="title_and_input">
         <p>End:</p>
-        <Input type="time" name="end-time" ref={endHourRef} />
+        <Input
+          type="time"
+          name="end-time"
+          value={endTime}
+          onBlur={endTimeOnBlur}
+          onChange={endTimeOnChange}
+          className={endTimeShowError ? "invalid" : ""}
+        />
       </div>
       <Button type="submit">Submit</Button>
     </form>

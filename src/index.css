@@ -65,6 +65,25 @@ input {
   padding: 0.5rem;
   border-radius: 12px;
   border: 1px solid #d1d1d1;
+  cursor: pointer;
+}
+
+input:focus,
+input:focus-visible {
+  outline: none;
+  border: 1px solid #000;
+  border-radius: 12px;
+}
+
+.invalid {
+  background-color: salmon;
+}
+
+.invalid:focus,
+.invalid:focus-visible {
+  border: 1px solid red;
+  outline: none;
+  border-radius: 12px;
 }
 
 .btn__main:hover {

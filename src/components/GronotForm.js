@@ -97,7 +97,7 @@ const GronotForm = ({ onFormSubmition }) => {
   let formIsValid;
 
   if (
-    (gronotNumberIsValid || garonNameIsValid) &&
+    (gronotNumberIsValid || gronotNames.length > 0) &&
     fromDateIsValid &&
     untilDateIsValid &&
     startTimeIsValid &&

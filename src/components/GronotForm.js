@@ -71,7 +71,7 @@ const GronotForm = ({ onFormSubmition }) => {
   }, [gronotNumber]);
 
   const onAddGaronHandler = () => {
-    if (!garonNameIsValid) {
+    if (!garonNameIsValid || namesDisable) {
       return;
     }
     setGronotNames((prev) => {

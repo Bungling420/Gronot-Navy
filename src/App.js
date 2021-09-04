@@ -3,43 +3,37 @@ import "./App.css";
 import GronotForm from "./components/GronotForm";
 import ResultPage from "./components/ResultPage";
 import Layout from "./components/Layout";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 
 function App() {
-  const [showForm, setShowForm] = useState(true);
-  const [showResult, setShowResult] = useState(false);
-  const [totalTime, setTotalTime] = useState("");
-  const [timeForEach, setTimeForEach] = useState("");
-  const [copyString, setCopyString] = useState("");
   const [showCopyText, setShowCopyText] = useState(false);
+  const history = useHistory();
   const formSubmitionHandler = (total, each, copyText) => {
     if (copyText !== "") {
       setShowCopyText(true);
     }
-    setShowForm(false);
-    setTotalTime(total);
-    setTimeForEach(each);
-    setCopyString(copyText);
-    setShowResult(true);
-  };
 
-  const calcHandler = () => {
-    setShowResult(false);
-    setShowForm(true);
+    history.push(
+      `/result-page?total=${total}&each=${each}${
+        copyText !== "" ? "&copyText=" + copyText : ""
+      }`
+    );
   };
 
   return (
     <Layout>
       <p>Seems like it’s your time to guard the ship...</p>
-      {showForm && <GronotForm onFormSubmition={formSubmitionHandler} />}
-      {showResult && (
-        <ResultPage
-          total={totalTime}
-          each={timeForEach}
-          onClac={calcHandler}
-          copyText={copyString}
-          showCopyText={showCopyText}
-        />
-      )}
+      <Switch>
+        <Route path="/calculate">
+          <GronotForm onFormSubmition={formSubmitionHandler} />
+        </Route>
+        <Route path={`/result-page`}>
+          <ResultPage showCopyText={showCopyText} />
+        </Route>
+        <Route path="*">
+          <Redirect to="/calculate" />
+        </Route>
+      </Switch>
     </Layout>
   );
 }

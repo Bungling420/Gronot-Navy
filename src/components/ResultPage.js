@@ -1,8 +1,49 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import Button from "./Button";
+import { isTime, isString } from "../util/validationFunctions";
 
-const ResultPage = ({ total, each, onClac, copyText, showCopyText }) => {
+const ResultPage = ({ showCopyText }) => {
   const textareaRef = useRef();
+  const location = useLocation();
+  const history = useHistory();
+
+  const [total, setTotal] = useState("");
+  const [each, setEach] = useState("");
+  const [copyText, setCopyText] = useState("");
+
+  const [totalExists, setTotalExists] = useState(true);
+  const [eachExists, setEachExists] = useState(true);
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(location.search);
+    if (urlSearchParams.has("total")) {
+      const totalParam = urlSearchParams.get("total");
+      console.log(!isTime(totalParam));
+      isTime(totalParam) ? history.replace("/calculate") : setTotal(totalParam);
+    } else {
+      setTotalExists(false);
+    }
+    if (urlSearchParams.has("each")) {
+      const eachParam = urlSearchParams.get("each");
+      isTime(eachParam) ? history.replace("/calculate") : setEach(eachParam);
+    } else {
+      setEachExists(false);
+    }
+    if (urlSearchParams.has("copyText")) {
+      const copyTextParam = urlSearchParams.get("copyText");
+      !isString(copyTextParam)
+        ? history.replace("/calculate")
+        : setCopyText(copyTextParam);
+    }
+  }, [location, history]);
+
+  useEffect(() => {
+    if (!totalExists || !eachExists) {
+      history.replace("/calculate");
+    }
+  }, [totalExists, eachExists, history]);
   const copyTextHandler = () => {
     textareaRef.current.select();
     document.execCommand("copy");
@@ -19,7 +60,7 @@ const ResultPage = ({ total, each, onClac, copyText, showCopyText }) => {
             <Button onClick={copyTextHandler}>Copy The text</Button>
           </React.Fragment>
         )}
-        <Button onClick={onClac}>Calculate again</Button>
+        <Link to={"/calculate"}>Calculate again</Link>
       </div>
     </React.Fragment>
   );

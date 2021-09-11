@@ -126,6 +126,24 @@ const GronotForm = ({ onFormSubmition }) => {
     onFormSubmition(totalTimeString, timeForEachString, copyText);
   };
 
+  const randomizeHandler = () => {
+    setGronotNames((prevNames) => {
+      const newArr = [...prevNames];
+      let currentIndex = newArr.length;
+      let randomIndex;
+
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [newArr[currentIndex], newArr[randomIndex]] = [
+          newArr[randomIndex],
+          newArr[currentIndex],
+        ];
+      }
+      return newArr;
+    });
+  };
+
   return (
     <form className="gronot_form" onSubmit={formSubmitHandler}>
       <label htmlFor="number-of-gronot">Enter The Number Of Gronot:</label>
@@ -164,6 +182,7 @@ const GronotForm = ({ onFormSubmition }) => {
           onRemove={removeHandler}
           names={gronotNames}
           onRemoveAll={removeAllHandler}
+          onRandomize={randomizeHandler}
         />
       )}
       <label>Enter Date:</label>

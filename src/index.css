@@ -139,7 +139,30 @@ label {
   margin-top: 0.5rem;
 }
 
-.garon {
+.garon_item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.garon_item:hover {
+  background: radial-gradient(#c5c5c5, #fff);
+}
+
+.garon_item > p {
+  position: absolute;
+  left: 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 100%;
+  border: 3px solid #000;
+  padding: 0.3rem;
+}
+
+.garon_name {
   background-color: #4fa658;
   border-radius: 12px;
   margin: 0.5em 0;
@@ -188,4 +211,16 @@ label {
 
 .result_list {
   margin: 0.5rem 0;
+}
+
+.actions_btn {
+  margin: 1rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.random_dice {
+  font-size: 2em;
 }

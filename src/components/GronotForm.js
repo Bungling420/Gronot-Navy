@@ -144,6 +144,16 @@ const GronotForm = ({ onFormSubmition }) => {
     });
   };
 
+  const swapHandler = (selectedIndex, swapIndex) => {
+    setGronotNames((prevNames) => {
+      const newArr = [...prevNames];
+      const temp = newArr[swapIndex];
+      newArr[swapIndex] = newArr[selectedIndex];
+      newArr[selectedIndex] = temp;
+      return newArr;
+    });
+  };
+
   return (
     <form className="gronot_form" onSubmit={formSubmitHandler}>
       <label htmlFor="number-of-gronot">Enter The Number Of Gronot:</label>
@@ -183,6 +193,7 @@ const GronotForm = ({ onFormSubmition }) => {
           names={gronotNames}
           onRemoveAll={removeAllHandler}
           onRandomize={randomizeHandler}
+          onSwap={swapHandler}
         />
       )}
       <label>Enter Date:</label>

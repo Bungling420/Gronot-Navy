@@ -29,6 +29,7 @@ const GronotForm = ({ onFormSubmition }) => {
   } = useInput(isString);
   const {
     value: fromDate,
+    setValue: setFromDate,
     showError: fromDateShowError,
     isValid: fromDateIsValid,
     onChange: fromDateOnChange,
@@ -36,6 +37,7 @@ const GronotForm = ({ onFormSubmition }) => {
   } = useInput(isDate);
   const {
     value: untilDate,
+    setValue: setUntilDate,
     showError: untilDateShowError,
     isValid: untilDateIsValid,
     onChange: untilDateOnChange,
@@ -43,6 +45,7 @@ const GronotForm = ({ onFormSubmition }) => {
   } = useInput(isDate);
   const {
     value: startTime,
+    setValue: setStartTime,
     showError: startTimeShowError,
     isValid: startTimeIsValid,
     onChange: startTimeOnChange,
@@ -50,6 +53,7 @@ const GronotForm = ({ onFormSubmition }) => {
   } = useInput(isTime);
   const {
     value: endTime,
+    setValue: setEndTime,
     showError: endTimeShowError,
     isValid: endTimeIsValid,
     onChange: endTimeOnChange,
@@ -154,6 +158,32 @@ const GronotForm = ({ onFormSubmition }) => {
     });
   };
 
+  const tonightHandler = (bool) => {
+    const multiplier = bool ? 12 : 60;
+    const startTimeString = bool ? "20:00" : "09:00";
+    const endTimeString = bool ? "08:00" : "20:00";
+    const toFrom = new Date(Date.now());
+    const toUntil = new Date(toFrom.getTime() + multiplier * 1000 * 60 * 60);
+
+    const fromMonth = toFrom.getMonth() + 1;
+    const fromDay = toFrom.getDate();
+
+    const untilMonth = toUntil.getMonth() + 1;
+    const untilDay = toUntil.getDate();
+    setFromDate(
+      `${toFrom.getFullYear()}-${
+        fromMonth < 10 ? "0" + fromMonth : fromMonth
+      }-${fromDay < 10 ? "0" + fromDay : fromDay}`
+    );
+    setUntilDate(
+      `${toUntil.getFullYear()}-${
+        untilMonth < 10 ? "0" + untilMonth : untilMonth
+      }-${untilDay < 10 ? "0" + untilDay : untilDay}`
+    );
+    setStartTime(startTimeString);
+    setEndTime(endTimeString);
+  };
+
   return (
     <form className="gronot_form" onSubmit={formSubmitHandler}>
       <label htmlFor="number-of-gronot">Enter The Number Of Gronot:</label>
@@ -196,6 +226,14 @@ const GronotForm = ({ onFormSubmition }) => {
           onSwap={swapHandler}
         />
       )}
+      <div className="quick-buttons">
+        <Button type="button" onClick={() => tonightHandler(true)}>
+          Tonight
+        </Button>
+        <Button type="button" onClick={() => tonightHandler(false)}>
+          Weekend
+        </Button>
+      </div>
       <label>Enter Date:</label>
       <div className="title_and_input">
         <p>From:</p>

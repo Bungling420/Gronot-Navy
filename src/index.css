@@ -242,3 +242,11 @@ label {
 .random_dice {
   font-size: 2em;
 }
+
+.quick-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 1em;
+}

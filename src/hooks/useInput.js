@@ -22,6 +22,7 @@ const useInput = (validationFunction) => {
 
   return {
     value,
+    setValue,
     showError,
     isValid,
     isTouched,
